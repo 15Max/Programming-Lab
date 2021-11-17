@@ -5,6 +5,6 @@ def sum_list(the_list):
   
   return s
   
-l1 = [1,2,3,4]
+l1 = [1,2,3,4,8,6]
 
 print ("Sum list: {}".format(sum_list(l1)))
