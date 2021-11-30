@@ -8,9 +8,18 @@ class CSVFile():
              raise Exception("Il nome del file non è una stringa!")
 
     def get_data(self , start=None , end=None):
-        #pulizia del dato
+        
         if start > end:
-            raise
+            print("Forse hai invertito l'ordine di start ed end, lo cambieremo noi per default!")
+            x = start
+            start = end
+            end = x
+        
+        if start<0 or end<0:
+            raise Exception("Uno dei due input è negativi!!!")
+
+        
+        
         #Sanitizzazione 
         if type(start) == str:
             if start.isdigit() == True : 
