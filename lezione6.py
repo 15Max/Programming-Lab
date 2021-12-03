@@ -1,6 +1,7 @@
  #Modificare l'oggetto CSVFile
  
 class CSVFile():
+
   #inizializzo la classe
     def __init__(self, name):
          self.name = name
@@ -8,28 +9,31 @@ class CSVFile():
              raise Exception("Il nome del file non è una stringa!")
 
     def get_data(self , start=None , end=None):
+        finish_list = []  
         #Sanitizzazione start ed end
-        if type(start) == str:
-            if start.isdigit() == True : 
+        if start is not None:
+        
+         if type(start) == str:
+             if start.isdigit() == True : 
                 start = int(start)
         
-        if type(start) == float:
+         if type(start) == float:
             start = int(start)
 
-        if type(end) == str:
-            if end.isdigit() == True : 
+        if end is not None:
+            if type(end) == str:
+                if end.isdigit() == True : 
+                   end = int(end)
+            if type(end) == float:
                 end = int(end)
         
-        if type(end) == float:
-            end = int(end)
-        
-        if start > end:
+        if start > end and (start!=None) and (end!=None) :
             print("Forse hai invertito l'ordine di start ed end, verranno invertiti per default!")
             x = start
             start = end
             end = x
         
-        if start<0 or end<0:
+        if start<0 or end<0 and (start!=None) and (end!=None):
             raise Exception("Uno dei due input è negativi!!!")
 
         
@@ -46,36 +50,28 @@ class CSVFile():
             raise Exception ("Il dato start è una stringa")
          #Apro il mio file, ora posso controllare che il testo da leggere sia abbastanza lungo
         my_file = open('shampoo_sales.txt', 'r')
-        if my_file.readlines() < end : 
-            raise Exception("Il file non ha abbastanza righe da leggere!")
-
-        
-        #inizializzo futura la lista di liste
-        finish_list = []
+        #lista delle righe di my_file
         
         
-
-
         
-
-
+          
         for line in my_file:
-            #split gli element 
             elements = line.split(',')
-            #aggiungo ogni lista nella lista finale
             if elements[0] != 'Date':
                 finish_list.append(elements) 
 
         #ritorno la parte di lista che mi serve 
 
         finish_list = finish_list[start:end]
-      #chiudo il file e return la lista di liste
+
+        
+        #chiudo il file e return la lista di liste
         my_file.close()
         return finish_list
 
 
 my_file = CSVFile('shampoo_sales.txt')
-print(my_file.get_data("7","4"))
+print(my_file.get_data(0,3))
 
 
 class NumericalCSVFile(CSVFile):
