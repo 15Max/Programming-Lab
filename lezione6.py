@@ -8,9 +8,23 @@ class CSVFile():
              raise Exception("Il nome del file non è una stringa!")
 
     def get_data(self , start=None , end=None):
+        #Sanitizzazione start ed end
+        if type(start) == str:
+            if start.isdigit() == True : 
+                start = int(start)
+        
+        if type(start) == float:
+            start = int(start)
+
+        if type(end) == str:
+            if end.isdigit() == True : 
+                end = int(end)
+        
+        if type(end) == float:
+            end = int(end)
         
         if start > end:
-            print("Forse hai invertito l'ordine di start ed end, lo cambieremo noi per default!")
+            print("Forse hai invertito l'ordine di start ed end, verranno invertiti per default!")
             x = start
             start = end
             end = x
@@ -20,39 +34,23 @@ class CSVFile():
 
         
         
-        #Sanitizzazione 
-        if type(start) == str:
-            if start.isdigit() == True : 
-                start = int(start)
         
-        if type(start) == float:
-            start = int(start)
-
-        if type(end) == str:
-            if start.isdigit() == True : 
-                start = int(start)
-        
-        if type(end) == float:
-            start = int(start)
         # errore generico
         if not isinstance(start , int):
-            raise Exception ("Il dato start : {}, non è del tipo intero!")
+            raise Exception ("Il dato start : {}, non è del tipo intero!".format(start))
 
         if not isinstance(end , int):
-            raise Exception ("Il dato end : {}, non è del tipo intero!")
+            raise Exception ("Il dato end : {}, non è del tipo intero!".format(end))
         
         if not isinstance(self.name , str):
             raise Exception ("Il dato start è una stringa")
-
+         #Apro il mio file, ora posso controllare che il testo da leggere sia abbastanza lungo
+        my_file = open('shampoo_sales.txt', 'r')
+        if my_file.readlines() < end : 
+            raise Exception("Il file non ha abbastanza righe da leggere!")
 
         
-
-
-
-        
-            my_file = open('shampoo_sales.txt', 'r')
-        
-         #inizializzo futura la lista di liste
+        #inizializzo futura la lista di liste
         finish_list = []
         
         
@@ -77,7 +75,7 @@ class CSVFile():
 
 
 my_file = CSVFile('shampoo_sales.txt')
-print(my_file.get_data(1,2))
+print(my_file.get_data("7","4"))
 
 
 class NumericalCSVFile(CSVFile):
@@ -101,4 +99,4 @@ class NumericalCSVFile(CSVFile):
         return use            
 
 file_p2 = NumericalCSVFile('sales.txt')
-print(file_p2.get_data())
+#print(file_p2.get_data())
