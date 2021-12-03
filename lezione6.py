@@ -52,7 +52,9 @@ class CSVFile():
         my_file = open('shampoo_sales.txt', 'r')
         #lista delle righe di my_file
         
-        
+        l = my_file.readlines()
+        if end > len(l):
+            raise Exception("Il file ha troppe ppoche righe")
         
           
         for line in my_file:
@@ -64,7 +66,7 @@ class CSVFile():
 
         finish_list = finish_list[start:end]
 
-        
+
         #chiudo il file e return la lista di liste
         my_file.close()
         return finish_list
