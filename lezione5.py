@@ -11,7 +11,7 @@ class CSVFile():
         except FileNotFoundError: 
             print("Non esiste un file con questo nome : {}!\n".format(self.name))
             print("Il file da aprire è: {}!\n".format("shampoo_sales.txt"))
-            my_file = open('shampoo_sales.txt','r')
+            #my_file = open('shampoo_sales.txt','r')
             
         except Exception as e:
             print("Abbiamo un errore generico, e si trova nel punto: {}".format(e))
@@ -25,7 +25,7 @@ class CSVFile():
         return data
         
     
-mio_file = CSVFile('shampo_sales.txt')
+mio_file = CSVFile(2)
 print(mio_file.get_data())
 
 class NumericalCSVFile(CSVFile):
@@ -48,7 +48,7 @@ class NumericalCSVFile(CSVFile):
         
 
 file_1 = NumericalCSVFile('shampoo_sales.txt')
-print(file_1.get_data())
+#rint(file_1.get_data())
         
 
     
