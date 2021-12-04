@@ -13,15 +13,29 @@ class TestGetData(unittest.TestCase):
     
     def test_negative(self):
         with self.assertRaises(Exception):
-            
+            csv_file = CSVFile('shampoo_sales.txt')
             csv_file.get_data(-1,4)
     
     def test_stings_in_arg(self):
         with self.assertRaises(TypeError):
             csv_file = CSVFile('shampoo_sales.txt')
             csv_file.get_data('due',4)
+
+    def test_list_in_arg(self):
+        with self.assertRaises(Exception):
+            csv_file = CSVFile('shampoo_sales.txt')
+            csv_file.get_data(['due'],4)
+    
+    
+
+
+
     
     def test_file_length(self):
         with self.assertRaises(Exception):
             csv_file = CSVFile('shampoo_sales.txt')
             csv_file.get_data(1, 100)
+    
+    def test_file_name_type(self):
+        with self.assertRaises(Exception):
+            csv_file = CSVFile(2)

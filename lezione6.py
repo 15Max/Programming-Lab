@@ -9,67 +9,57 @@ class CSVFile():
              raise Exception("Il nome del file non è una stringa!")
 
     def get_data(self , start=None , end=None):
-        finish_list = []  
+        #inizializzo la lista che conterrà le righe richieste 
+        data = []  
         #Sanitizzazione start ed end
         if start is not None:
-        
-         if type(start) == str:
-             if start.isdigit() == True : 
+            #contollo che sia una stringa di numeri e in caso la cambio ad un intero
+            if type(start) == str and start.isdigit() == True : 
                 start = int(start)
-        
-         if type(start) == float:
-            start = int(start)
-
+            #se è un float lo approsimo ad un intero
+            if type(start) == float:
+                start = int(start)
+            # errore di tipo, generico 
+            if not isinstance(start , int):
+                raise Exception ("Il dato start : {}, non è del tipo intero, bensì del tipo {}!".format(start,type(start)))
+        #Applico gli stessi controlli ad end
         if end is not None:
-            if type(end) == str:
-                if end.isdigit() == True : 
-                   end = int(end)
+            if type(end) == str and end.isdigit() == True :
+                end = int(end)
             if type(end) == float:
                 end = int(end)
+            if not isinstance(end , int):
+                raise Exception ("Il dato end : {}, non è del tipo intero, bensì del tipo {}!".format(end,type(end)))   
+        #Controllo che uno dei due input non sia negativo
+        if start<0 or end<0 and (start!=None) and (end!=None):
+            raise Exception("Uno dei due input è negativi!!!")
         
+         #Apro il mio file, ora posso controllare che il testo da leggere sia abbastanza lungo
+        my_file = open('shampoo_sales.txt', 'r')
+        #lista delle righe di my_file
+        l = my_file.readlines()
+        if end > len(l):
+            raise Exception("Il file ha troppe poche righe, puoi lefferne al massimo: {}".format(len(l)))
+        #Controllo che il valore di end non sia minore di quello di start e in caso li inverto per default, avvisando l'utente
         if start > end and (start!=None) and (end!=None) :
             print("Forse hai invertito l'ordine di start ed end, verranno invertiti per default!")
             x = start
             start = end
             end = x
-        
-        if start<0 or end<0 and (start!=None) and (end!=None):
-            raise Exception("Uno dei due input è negativi!!!")
-
-        
-        
-        
-        # errore generico
-        if not isinstance(start , int):
-            raise Exception ("Il dato start : {}, non è del tipo intero!".format(start))
-
-        if not isinstance(end , int):
-            raise Exception ("Il dato end : {}, non è del tipo intero!".format(end))
-        
-        if not isinstance(self.name , str):
-            raise Exception ("Il dato start è una stringa")
-         #Apro il mio file, ora posso controllare che il testo da leggere sia abbastanza lungo
-        my_file = open('shampoo_sales.txt', 'r')
-        #lista delle righe di my_file
-        
-        l = my_file.readlines()
-        if end > len(l):
-            raise Exception("Il file ha troppe ppoche righe")
-        
           
-        for line in my_file:
+        for line in l:
             elements = line.split(',')
             if elements[0] != 'Date':
-                finish_list.append(elements) 
+                data.append(elements) 
 
         #ritorno la parte di lista che mi serve 
 
-        finish_list = finish_list[start:end]
+        data = data[start:end]
 
 
         #chiudo il file e return la lista di liste
         my_file.close()
-        return finish_list
+        return data
 
 
 my_file = CSVFile('shampoo_sales.txt')
