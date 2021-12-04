@@ -12,8 +12,7 @@ class CSVFile():
     
 
     def get_data(self , start=None , end=None):
-            
-            #inizializzo la lista che conterrà le righe richieste 
+         #inizializzo la lista che conterrà le righe richieste 
             data = [] 
             #Sanitizzazione start ed end
             if start is not None:
@@ -74,7 +73,7 @@ class CSVFile():
             #chiudo il file e return la lista di liste
             my_file.close()
             return data
-
+   
 
 
 my_file = CSVFile('shampoo_sales.txt')
