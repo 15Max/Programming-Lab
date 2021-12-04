@@ -22,6 +22,9 @@ class CSVFile():
             # errore di tipo, generico 
             if not isinstance(start , int):
                 raise Exception ("Il dato start : {}, non è del tipo intero, bensì del tipo {}!".format(start,type(start)))
+            #Controllo che start non sia negativo
+            if start<0:
+                raise Exception("Start è negativo!")
         #Applico gli stessi controlli ad end
         if end is not None:
             if type(end) == str and end.isdigit() == True :
@@ -29,33 +32,36 @@ class CSVFile():
             if type(end) == float:
                 end = int(end)
             if not isinstance(end , int):
-                raise Exception ("Il dato end : {}, non è del tipo intero, bensì del tipo {}!".format(end,type(end)))   
-        #Controllo che uno dei due input non sia negativo
-        if start<0 or end<0 and (start!=None) and (end!=None):
-            raise Exception("Uno dei due input è negativi!!!")
+                raise Exception ("Il dato end : {}, non è del tipo intero, bensì del tipo {}!".format(end,type(end)))
+            if end<0:
+                raise Exception("End è negativo!") 
         
-         #Apro il mio file, ora posso controllare che il testo da leggere sia abbastanza lungo
+        #Apro il mio file, ora posso controllare che il testo da leggere sia abbastanza lungo
         my_file = open('shampoo_sales.txt', 'r')
         #lista delle righe di my_file
         l = my_file.readlines()
-        if end > len(l):
-            raise Exception("Il file ha troppe poche righe, puoi lefferne al massimo: {}".format(len(l)))
+        if end != None and end > len(l):
+            my_file.close()
+            raise Exception("Il file ha troppe poche righe, puoi leggerne al massimo: {}".format(len(l)))
         #Controllo che il valore di end non sia minore di quello di start e in caso li inverto per default, avvisando l'utente
-        if start > end and (start!=None) and (end!=None) :
+        if (start!=None) and (end!=None) and start > end :
             print("Forse hai invertito l'ordine di start ed end, verranno invertiti per default!")
             x = start
             start = end
             end = x
-          
+        #Separo gli elementi delle righe del mio file e inserisco dentro a data
         for line in l:
             elements = line.split(',')
             if elements[0] != 'Date':
                 data.append(elements) 
 
-        #ritorno la parte di lista che mi serve 
-
-        data = data[start:end]
-
+        #ritorno la parte di lista che mi serve
+        if start== None and end != None:
+            data = data[:end] 
+        elif start != None and end == None:
+            data = data[start:]
+        elif start != None and end !=None:
+            data = data[start:end]
 
         #chiudo il file e return la lista di liste
         my_file.close()
@@ -67,16 +73,11 @@ print(my_file.get_data(0,3))
 
 
 class NumericalCSVFile(CSVFile):
-    pass
-
-    def get_data(self):
-        data = super().get_data()  
+    def get_data(self, start = None, end = None):
+        #Utilizzo la funzione get data definita nella classe genitrice per recuperare la lista su cui lavorare
+        data = super().get_data(start, end)  
         use = []
-
-
         for item in data:
-            
-
             for x in item[1:]:
                 try:
                     x = float(x)
@@ -86,5 +87,5 @@ class NumericalCSVFile(CSVFile):
 
         return use            
 
-file_p2 = NumericalCSVFile('sales.txt')
-#print(file_p2.get_data())
+file_p2 = NumericalCSVFile('shampoo_sales.txt')
+print(file_p2.get_data())
