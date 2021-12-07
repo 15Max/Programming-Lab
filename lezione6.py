@@ -11,7 +11,7 @@ class CSVFile():
         
         #Contollo di aprire un file che esista?
 
-        #Controllo che il nome del file sia una stringa
+        #Controllo che il nome del file sia una stringa (questa verifica ha senso o è eccessiva?)
         if not isinstance(self.name , str):
             raise Exception("Il nome del file non è una stringa!")
         #se il nome del file da aprire non è quello giusto alzo un'eccezione
@@ -29,13 +29,13 @@ class CSVFile():
             #Sanitizzazione start ed end
             if start is not None:
                 #contollo che sia una stringa contenente un numero intero e in caso la cambio ad un intero
-                if type(start) == str and start.strip().isdigit() == True : 
+                if isinstance(start , str) and start.strip().isdigit() == True : 
                     start = int(start)
                 #contollo che sia una stringa contenente un numero float e in caso la cambio ad un intero
-                if type(start) == str and start.count('.') == 1 and start.replace('.','').strip().isdigit() == True:
+                if isinstance(start,str) and start.count('.') == 1 and start.replace('.','').strip().isdigit() == True:
                     start = int(float(start))
                     #se è un float lo approsimo ad un intero
-                if type(start) == float:
+                if isinstance(start, float):
                     start = int(start)
                 # errore di tipo, generico 
                 if not isinstance(start , int):
@@ -45,16 +45,17 @@ class CSVFile():
                     raise Exception("Start è negativo!")
             #Applico gli stessi controlli ad end
             if end is not None:
-                if type(end) == str and end.strip().isdigit() == True :
+                if isinstance(end , str) and end.strip().isdigit() == True :
                     end = int(end)
-                if type(end) == float:
+                if isinstance(end , float):
                     end = int(end)
-                if type(end) == str and end.count('.') == 1 and end.replace('.','').strip().isdigit() == True:
+                if isinstance(end , str) and end.count('.') == 1 and end.replace('.','').strip().isdigit() == True:
                     end = int(float(end))
                 if not isinstance(end , int):
                     raise Exception ("Il dato end : {}, non è del tipo intero, bensì del tipo {}!".format(end,type(end)))
                 if end<0:
                     raise Exception("End è negativo!")
+            
             #Apro il mio file, ora posso controllare che il testo da leggere sia abbastanza lungo
             my_file = open(self.name, 'r')
            
@@ -83,7 +84,7 @@ class CSVFile():
             elif start != None and end !=None:
                 data = data[start:end]
 
-            #chiudo il file e return la lista di liste
+            #chiudo il file e ritorno la lista di liste
             my_file.close()
             return data
    
