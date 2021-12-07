@@ -5,8 +5,20 @@ class CSVFile():
   #inizializzo la classe
     def __init__(self, name):
         self.name = name
+        #Contollo di aprire un file del formato corretto
+        if not self.name[-4:] == '.txt' and not self.name[-4:] == '.csv':
+            raise Exception('Il formato del file è errato')
+        
+        #Contollo di aprire un file che esista?
+
+        #Controllo che il nome del file sia una stringa
         if not isinstance(self.name , str):
             raise Exception("Il nome del file non è una stringa!")
+        #se il nome del file da aprire non è quello giusto alzo un'eccezione
+        if self.name != "shampoo_sales.txt":
+            raise Exception('Hai aperto il file sbalgiato!')
+
+        
         
         
     
@@ -44,7 +56,7 @@ class CSVFile():
                 if end<0:
                     raise Exception("End è negativo!")
             #Apro il mio file, ora posso controllare che il testo da leggere sia abbastanza lungo
-            my_file = open('shampoo_sales.txt', 'r')
+            my_file = open(self.name, 'r')
            
             #lista delle righe di my_file
             l = my_file.readlines()

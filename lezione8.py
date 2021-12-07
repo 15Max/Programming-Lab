@@ -22,8 +22,16 @@ class IncrementModel(Model):
         if length < 2:
             raise Exception( "Non ci sono abbastanza dati nella lista per implementare questo modello!")
         
-        #Controllo che gli elementi della lista siano effettivamente numeri
-        
+        #Controllo che gli elementi della lista siano effettivamente numeri e sanitizzo nel caso in cui ci sia una string acontenente un numero
+        for item in data:
+            # Se ho una stringa contenente un intero cambio il tipo
+            if isinstance(item,str) and item.isdigit() :
+                item = int(item)
+            #se ho una stringa contenente un float 
+            pass
+                
+
+
         
 
         #Creo una variabile di appoggio per salvare la somma degli incrementi

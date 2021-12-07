@@ -3,16 +3,21 @@ from lezione6 import CSVFile
 
 
 class TestGetData(unittest.TestCase):
+
+    #Controllo che se il nome del file da aprire è errato venga alzata un'eccezione
+    def test_correct_file_name(self):
+        with self.assertRaises(Exception):
+            csv_file = CSVFile('shampo_sales.txt')
     
     # Controllo che l'output di get data  sia quello atteso
-    csv_file = CSVFile('shampoo_sales.txt')
+    
     def test_get_data(self):
+        
         Expectation = [['01-01-2012','266.0\n'],['01-02-2012','145.9\n'],['01-03-2012','183.1\n']]
         csv_file = CSVFile('shampoo_sales.txt')
         self.assertEqual(csv_file.get_data(0,3), Expectation)
         self.assertEqual(csv_file.get_data(None,3),Expectation)
-        
-
+    
     #Controllo che il nome del file venga effettivamente salvato come attributo self.name
     def test_file_name(self) :
         csv_file_1 = CSVFile('shampoo_sales.txt')
