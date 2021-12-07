@@ -56,12 +56,14 @@ class TestGetData(unittest.TestCase):
         with self.assertRaises(Exception):
             csv_file.get_data('due',4)
             csv_file.get_data(2,'quattro')
+            csv_file.get_data('due','quattro')
     #Controllo che se ho una lista come argomento di get_data venga alzata un'eccezione
     def test_list_in_arg(self):
         csv_file = CSVFile('shampoo_sales.txt')
         with self.assertRaises(Exception):
             csv_file.get_data(['due'],4)
             csv_file.get_data(2,[4])
+            csv_file.get_data([2],[4])
     #Controllo che se ho un dizionario come argomento di get_data venga  alzata un'eccezione
     def test_dict_in_arg(self):
         csv_file = CSVFile('shampoo_sales.txt')
