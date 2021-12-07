@@ -7,7 +7,7 @@ class CSVFile():
         self.name = name
         #Contollo di aprire un file del formato corretto
         if not self.name[-4:] == '.txt' and not self.name[-4:] == '.csv':
-            raise Exception('Il formato del file è errato')
+            raise Exception('Il formato del file è errato!')
         
         #Contollo di aprire un file che esista?
 

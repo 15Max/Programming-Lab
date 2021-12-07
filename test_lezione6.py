@@ -8,6 +8,17 @@ class TestGetData(unittest.TestCase):
     def test_correct_file_name(self):
         with self.assertRaises(Exception):
             csv_file = CSVFile('shampo_sales.txt')
+
+    #Contollo che se il formato del file è errato venga alzata un'eccezione
+    def test_correct_file_format(self):
+        with self.assertRaises(Exception):
+            csv_file = CSVFile('shampo_sales.jpg')
+
+        #Controllo che il nome del file venga effettivamente salvato come attributo self.name
+    def test_file_name(self) :
+        csv_file_1 = CSVFile('shampoo_sales.txt')
+        self.assertEqual(csv_file_1.name,'shampoo_sales.txt' )
+
     
     # Controllo che l'output di get data  sia quello atteso
     
@@ -18,10 +29,7 @@ class TestGetData(unittest.TestCase):
         self.assertEqual(csv_file.get_data(0,3), Expectation)
         self.assertEqual(csv_file.get_data(None,3),Expectation)
     
-    #Controllo che il nome del file venga effettivamente salvato come attributo self.name
-    def test_file_name(self) :
-        csv_file_1 = CSVFile('shampoo_sales.txt')
-        self.assertEqual(csv_file_1.name,'shampoo_sales.txt' )
+
     #Controllo che l'eccezione per cui uno dei due numeri in input sono negativi venga "alzata"
     def test_negative(self):
         csv_file_2 = CSVFile('shampoo_sales.txt')
