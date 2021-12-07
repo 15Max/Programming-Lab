@@ -22,13 +22,22 @@ class IncrementModel(Model):
         if length < 2:
             raise Exception( "Non ci sono abbastanza dati nella lista per implementare questo modello!")
         
-        #Controllo che gli elementi della lista siano effettivamente numeri e sanitizzo nel caso in cui ci sia una string acontenente un numero
+        # Controllo che gli elementi della lista siano float o interi, accetto quei casi in cui gli elementi della lista siano delle stringhe contenenti dei numeri anche con evevntuali spazi iniziali
         for item in data:
-            # Se ho una stringa contenente un intero cambio il tipo
-            if isinstance(item,str) and item.isdigit() :
-                item = int(item)
-            #se ho una stringa contenente un float 
-            pass
+            #Sanitizzazione elementi della lista
+            if isinstance(item,str):
+                #contollo che sia una stringa contenente un numero intero e in caso la cambio ad un intero
+                if isinstance(item , str) and item.strip().isdigit() == True : 
+                    item = int(item)
+                #contollo che sia una stringa contenente un numero float e in caso la cambio ad un float
+                if isinstance(item,str) and item.count('.') == 1 and item.replace('.','').strip().isdigit() == True:
+                    item = float(item)
+
+                # errore di tipo, generico 
+                if not (isinstance(item , int) or isinstance(item,float)):
+                    raise Exception ("Il dato : {}, non è nè del tipo intero nè del tipo float, bensì del tipo {}!".format(item,type(item)))
+
+            
                 
 
 
