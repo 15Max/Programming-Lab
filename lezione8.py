@@ -26,12 +26,13 @@ class IncrementModel(Model):
        
         for item in data:
             #Sanitizzazione elementi della lista
+            #è possibile sanitizzare la lista, problema del 
             #contollo che sia una stringa contenente un numero intero e in caso la cambio ad un intero
-            if isinstance(item,str) and item.strip().isdigit() == True :
-                item= int(item)
+            #if isinstance(item,str) and item.strip().isdigit() == True :
+                #item= int(item)
             #contollo che sia una stringa contenente un numero float e in caso la cambio ad un float
-            if isinstance(item,str) and item.count('.') == 1 and item.replace('.','').strip().isdigit() == True:
-                    item = float(item)
+            #if isinstance(item,str) and item.count('.') == 1 and item.replace('.','').strip().isdigit() == True:
+                    #item = float(item)
             if item == None:
                 raise Exception('Hai un elemento corrispondente a None nella tua lista!' )
 
@@ -58,11 +59,11 @@ class IncrementModel(Model):
         #divido la somma degli incrementi per il numero di mesi considerati
         prediction = prediction / (length-1)
         # Aggiungo all'ultimo elemento della lista, che indica il valore di vendite attuale la media degli incrementi
-        prediction += data[length-1] 
+        prediction += data[-1] 
         return prediction
 
 
-dati = [50, '52' ,  60.0]
+dati = [3,5,2]
 
 increment_model = IncrementModel()
-print("{}".format(increment_model.predict(dati)))
+#print("{}".format(increment_model.predict(dati)))

@@ -91,7 +91,7 @@ class CSVFile():
 
 
 my_file = CSVFile('shampoo_sales.txt')
-print(my_file.get_data('0 ',3.0))
+# print(my_file.get_data('0 ',3.0))
 
 
 class NumericalCSVFile(CSVFile):
@@ -117,6 +117,7 @@ class NumericalCSVFile(CSVFile):
               
 
 file_p2 = NumericalCSVFile('shampoo_sales.txt')
+print(file_p2.get_data())
 #print(file_p2.get_data(0,4))
 #print(file_p2.total(0,4))
 #print(file_p2.average(0,4))

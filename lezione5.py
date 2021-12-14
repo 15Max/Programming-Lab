@@ -26,7 +26,7 @@ class CSVFile():
         
     
 mio_file = CSVFile(2)
-print(mio_file.get_data())
+#print(mio_file.get_data())
 
 class NumericalCSVFile(CSVFile):
     pass
@@ -48,7 +48,7 @@ class NumericalCSVFile(CSVFile):
         
 
 file_1 = NumericalCSVFile('shampoo_sales.txt')
-#rint(file_1.get_data())
+print(file_1.get_data())
         
 
     
