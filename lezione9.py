@@ -11,7 +11,7 @@ class FitIncrementModel(IncrementModel):
             incr_prev += (item - previous)
             previous = item
 
-        avg_increment =  incr_prev/ (len(data)-4)
+        avg_increment =  incr_prev/ (len(data)-1)
         self.global_avg_increment = avg_increment
     # Presuppongo di dare in input soltanto gli ultimi tre mesi
     def predict(self , data):
@@ -29,8 +29,8 @@ class FitIncrementModel(IncrementModel):
 dati = [50,52,60]
 fit_dati = [8,19,31,41]   
 fit_increment_model = FitIncrementModel()
-fit_increment_model.fit(dati2)
-print("{}".format(fit_increment_model.predict(dati1))) 
+fit_increment_model.fit(fit_dati)
+print("{}".format(fit_increment_model.predict(dati))) 
 
         
 

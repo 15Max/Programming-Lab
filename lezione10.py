@@ -4,14 +4,18 @@ from lezione6 import NumericalCSVFile
 
 
 file_dati = NumericalCSVFile('shampoo_sales.txt')
-dataset = file_dati.get_data()
-first = dataset[:25]
-last = dataset[25:]
-previsioni = []
-errori
-incremento = FitIncrementModel()
-incremento.fit(first[:-3])
-incremento.predict(first[:-3])
+first_half = file_dati.getdata(0,24)
+second_half = file_dati.getdata(24,)
+
+def evaluate(lista1 , lista2):
+    error = []
+    predictions = []
+
+
+     
+
+def predictions(lista_fit , lista_predict):
+    
 
 
 
