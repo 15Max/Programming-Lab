@@ -22,14 +22,15 @@ class MovingAverage():
         if series == []:
             raise ExamException('La lista contenente la serie è vuota')
         
-        #Controllo che la lunghezza della finestra non ecceda quella della serie
-        if self.length > len(series):
-            raise ExamException('La lunghezza della finestra è più grande di quella della serie')
-
-        # Controllo che gli elementi della serie siano interi 
-        for item in series:
-            if not isinstance(item, int):
-                raise ExamException('Uno degli elementi della lista non è un intero')
+        # Se la lista non è vuota, e solo allora , posso procedre con gli altri controlli
+        if not series == []:
+            #Controllo che la lunghezza della finestra non ecceda quella della serie
+            if self.length > len(series):
+                raise ExamException('La lunghezza della finestra è più grande di quella della serie')
+            # Controllo che gli elementi della serie siano numeri
+            for item in series:
+                if not isinstance(item, int) or not isinstance(item,float):
+                    raise ExamException('Uno degli elementi della lista non è un numero')
         
         
         
@@ -42,6 +43,7 @@ class MovingAverage():
             element /= self.length
             results.append(element)
         return results
+
 
 
 
