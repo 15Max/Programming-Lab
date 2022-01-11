@@ -46,3 +46,15 @@ class MovingAverage():
 
 
 
+#MIni-test (not unittesting)
+
+moving_average = MovingAverage(2)
+result = moving_average.compute([2,4,8,16])
+print(result)
+#Controllo che l'attributo length sia proprio 2 
+if not moving_average.length == 2 :
+    raise ExamException("L'attributo lunghezza non è stato salvato correttamente" ) 
+# Utilizzo i dati forniti e controllo che il risultato sia quello atteso
+if  not result == [3,6,12]:
+    raise ExamException('Il risultato non è quello atteso bensì {}'.format(result))
+
