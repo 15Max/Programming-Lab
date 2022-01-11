@@ -26,8 +26,8 @@ class FitIncrementModel(IncrementModel):
         return prediction
 
 
-dati = [50,52,60]
-fit_dati = [8,19,31,41]   
+dati = [52,60,67]
+fit_dati = [8,19,31,41,50]   
 fit_increment_model = FitIncrementModel()
 fit_increment_model.fit(fit_dati)
 print("{}".format(fit_increment_model.predict(dati))) 
