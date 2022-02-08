@@ -32,9 +32,7 @@ class CSVTimeSeriesFile():
         return data
 
 
-time_series_file = CSVTimeSeriesFile(name='data.csv')
 
-time_series = time_series_file.get_data()
 
 # Creo la funzione richiesta 
 def compute_avg_monthly_difference(time_series, first_year, last_year):
@@ -50,21 +48,17 @@ def compute_avg_monthly_difference(time_series, first_year, last_year):
     for i in range(n+1):
         lista_anno.append(first_year + i)
 
-    # Creo una lista dei dati da analizzare
+    # Creo una lista dei dati da analizzare:
+    #tramite un descrittore di lista creo una lista di liste contenenti i dati dei passeggeri divisi per anni, otterò quindi un numero di sottoliste pari agli anni presi in considerazione
 
-    data = [[ element[1] for element in time_series if element[0].startswith(str(year))] for year in lista_anno]
+    data = [[element[1] for element in time_series if element[0].startswith(str(year))] for year in lista_anno]
+    # Sempre tramite i descrittori di lista sommo con la funzione sum sulle liste tutte le differenze per mese 
     lista_ausiliaria = [sum([data[i+1][month] - data[i][month] for i in range(n)]) for month in range(12)]
+    #Con un descrittore di lista 
     lista_finale = [x/n for x in lista_ausiliaria]
-
-
-    
-
-
-
-
-    
-    
     return lista_finale
 
 
-print('{}'.format(compute_avg_monthly_difference(time_series, '1949', '1951')))
+time_series_file = CSVTimeSeriesFile(name='data.csv')
+time_series = time_series_file.get_data()
+print('{}'.format(compute_avg_monthly_difference(time_series, '1949', '1951')))21
