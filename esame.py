@@ -1,48 +1,70 @@
+#Creo una classe per le eccezioni
 class ExamException(Exception):
-   pass
 
-class Diff():
-    def __init__(self, ratio=1):
-        self.ratio = ratio 
-        #Controllo che ratio sia un numero
-        if not isinstance(ratio , int) and not isinstance(ratio , float):
-            raise ExamException('Il parametro ratio inserito non è un numero!')
-        
-        #Controllo che ratio sia diverso da zero e negativo
-        if self.ratio <= 0:
-            raise ExamException('Ratio non deve essere minore o uguale a zero')
+        pass
 
 
-    def compute(self, input_list) :
-        #Controllo che l'input sia effettivamente una lista
-        if not isinstance(input_list, list):
-            raise ExamException("L'input non è una lista!" )
-        #Se l'input è una lista controllo che questa non sia vuota
-        elif input_list == []:
-            raise ExamException('La lista degli input è vuota')
-        else:
-            #Controllo che la lista abbia almeno due elementi
-            if len(input_list) < 2:
-                raise ExamException('La lista ha meno di due elementi')
-            # Contollo che la lista contenga numeri
-            for item in input_list:
-                if not isinstance(item,int) and not isinstance(item,float):
-                    raise ExamException('Uno degli elementi della lista non è un numero!')
+#Creo la classe CSVTimeSeriesFile
+class CSVTimeSeriesFile():
+    def __init__(self, name):
+        self.name = name
+    
+    def get_data(self):
+        #lista che conterrà le altre liste
+        data = []
+        #Apro il file per la lettura 
+        my_file = open(self.name ,'r')
 
-       
-
-
-        #creo una lista vuota in cui inserire i risultati
-        results = []
-
-        for index in range(len(input_list)-1):
-            #Calcolo la differenza degli elementi nella lista
-            element = input_list[index+1] - input_list[index]
-            #Se il paramtro ratio è stato inserito 'riscalo' l'elemento ottenuto
-            element /= self.ratio
-            #Inserisco l'elemento calcolato nella lista dei risultati
-            results.append(element)
-
-        return results
+        # leggo le righe del file
+        for line in my_file:
+            #lista contenente i due elementi splittati
+            elements = line.split(',')
+            #Tolgo l'elemento new line (/n)
+            elements[-1] = elements[-1].strip()
+            #Se non sto leggendo l'intestazione
+            if elements[0] != 'date':
+                #Trasformo tutti i dati dei passegeri in interi
+                elements[1] = int(elements[1])
+                # aggiungo i vari elementi nella lista di liste
+                data.append(elements)
+                
+        my_file.close()
+        return data
 
 
+time_series_file = CSVTimeSeriesFile(name='data.csv')
+
+time_series = time_series_file.get_data()
+
+# Creo la funzione richiesta 
+def compute_avg_monthly_difference(time_series, first_year, last_year):
+
+    #Converto in interi gli anni da considerare
+    first_year = int(first_year)
+    last_year = int(last_year)
+    #Intervallo di anni da considerare
+    n = last_year - first_year
+    # Lista anni
+    lista_anno = []
+    # Creo la lista degli anni
+    for i in range(n+1):
+        lista_anno.append(first_year + i)
+
+    # Creo una lista dei dati da analizzare
+
+    data = [[ element[1] for element in time_series if element[0].startswith(str(year))] for year in lista_anno]
+    lista_ausiliaria = [sum([data[i+1][month] - data[i][month] for i in range(n)]) for month in range(12)]
+    lista_finale = [x/n for x in lista_ausiliaria]
+
+
+    
+
+
+
+
+    
+    
+    return lista_finale
+
+
+print('{}'.format(compute_avg_monthly_difference(time_series, '1949', '1951')))

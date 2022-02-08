@@ -18,3 +18,5 @@ class CSVFile():
     
 mio_file = CSVFile('shampoo_sales.txt')
 print(mio_file.get_data())
+
+
