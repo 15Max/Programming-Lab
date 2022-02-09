@@ -66,23 +66,13 @@ class CSVTimeSeriesFile():
                     passenger_values = int(passenger_values)
                     #Se ci fossero altri dati aggiuntivi nella lista li escludo considerando soltanto i primi due elementi della lista 
                     data.append(elements[:2])
-        #chiudo il file
-        my_file.close()
+    #chiudo il file
+    my_file.close()
 
-        return data
+    return data
 
                 
-
-
-
-
-
-
-
-            
-
-
-
-        
-
-
+time_series_file = CSVTimeSeriesFile(name='data.csv')
+#Variabile contenente il risultato di get.data()
+time_series = time_series_file.get_data()
+print('{}'.format(time_series)
