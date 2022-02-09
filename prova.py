@@ -29,44 +29,47 @@ class CSVFile():
         #Controllo che il file non sia vuoto
         if length == 0:
             raise ExamException('Il file è vuoto!')
-
-        #Lista contentente i valori da ritornare
+        
+        # Initialise an empty list in which I am going to save our data.
         data = []
-
-        # leggo le righe del file
+    
+        # Lreading the file line by line
         for line in my_file:
-            #lista contenente gli elementi della riga splittati
+                
+            # divide each line on the comma
             elements = line.split(',')
-            #Tolgo l'elemento new line (/n)
+                
+            # I remove the newline element (\n) from the last element using the strip.
             elements[-1] = elements[-1].strip()
-            #Se non sto leggendo l'intestazione
+    
+            # If I'm not processing the header
             if elements[0] != 'date':
-                #Se la riga ha un solo dato la salto
-                if len(elements) < 2 :
+                #we skip over the parts of the list which have less than 2 arguments
+                if len(elements)<2:
                     continue
-                #Tolgo eventuali spazi in eccesso 
+                #removing excess spaces
                 elements[0] = elements[0].strip()
                 elements[1] = elements[1].strip()
 
-                #Controllo che il primo dato sia convertibile in oggetto datetime
+                #checking if elements[0] can be converted into datetime
                 try:
-                    prova_1 = datetime.strptime(elements[0], '%Y-%m')
+                    date_time = datetime.strptime(elements[0], '%Y-%m')
                 except:
                     continue
-                
-                #Controllo che il secondo dato sia tramutabile in intero e lo converto
+
+                #transform all elements from string to integer
                 try:
                     elements[1] = int(elements[1])
                 except:
-                    # Se non riesco a convertire il dato in intero lo sostituisco con None
-                    elements[1] = None
-                # Se hanno superato tutti i controlli aggiungo i due elementi alla lista, con lo slicing escludo eventuali elementi in eccesso
+                    elements[1] = None 
+                #if i'm not able to i put none instead
+  
+                #I add these items to the list and in case we have more than two elements i'm gonna add just the first two 
                 data.append(elements[:2])
-        
-
-        #Chiudo il file        
+    
         my_file.close()
         return data
+
 
 #Creo la classe CSVTimeSeries
 
@@ -74,41 +77,5 @@ class CSVTimeSeries(CSVFile):
     def get_data(self):
         #Salvo in una variabile il risultato del get_data di CSVFile
         dati = super.get_data()
-
-        data_confronto = copy_data[0][0]
-        for elemento in dati[1:] :
-            if data_confronto >= elemento[0]:
-                raise ExamException('I timestamps non sono ordinati in modo corretto!')
-            data_confronto = elemento[0]
-            
-        return dati
-            
-
-def compute_avg_monthly_difference(time_series , first_year , last_year):
-    
-
-        
-        # Controllo che le date non siano ripetute o che 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 prova = CSVFile('data.csv')
 print('{}'.format(prova.get_data()))
