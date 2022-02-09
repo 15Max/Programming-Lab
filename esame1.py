@@ -24,13 +24,14 @@ class CSVTimeSeriesFile():
         #Controllo che il file sia leggibile
         if not self.can_read:
             raise ExamException('Il file non è leggibile!')
+        #Apro il file per la lettura 
+        my_file = open(self.name ,'r')
 
 
 
         #lista che conterrà le altre liste
         data = []
-        #Apro il file per la lettura 
-        my_file = open(self.name ,'r')
+
         #controllo l'esistenza del file?
 
         # leggo le righe del file
@@ -109,7 +110,7 @@ def compute_avg_monthly_difference(time_series, first_year, last_year):
     return lista_finale
 
 
-time_series_file = CSVTimeSeriesFile(name='dat.csv')
+time_series_file = CSVTimeSeriesFile(name='data.csv')
 #Variabile contenente il risultato di get.data()
 time_series = time_series_file.get_data()
 print('{}'.format(compute_avg_monthly_difference(time_series, '1949', '1951')))
