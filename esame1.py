@@ -84,9 +84,7 @@ def compute_avg_monthly_difference(time_series, first_year, last_year):
     # Controllo che non sia vuota
     if time_series == [] :
         raise ExamException('La lista time_series non ha elementi!')
-    else: 
-        #Controllo che in ogni sottolista ci sia almeno una misurazione?
-        pass
+
 
     #Converto in interi gli anni da considerare
     primo_anno = int(first_year)
