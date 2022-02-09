@@ -1,14 +1,12 @@
+
 #Creo una classe per le eccezioni
 class ExamException(Exception):
 
         pass
 
-# Importo il modulo datetime che mi servirà in seguito per fare dei controlli sui dati del file csv
-from datetime import datetime
 
 #Creo la classe CSVTimeSeriesFile
 class CSVTimeSeriesFile():
-
     def __init__(self, name):
         self.name = name
 
@@ -17,29 +15,25 @@ class CSVTimeSeriesFile():
         try:
             my_file = open(self.name, 'r')
             my_file.readline()
-        #Se il file non si apre cambio il valore dell'attributo self.can_read a False
-        except :
+        except Exception as e:
             self.can_read = False
-
-
+            
+    
     #Definisco il metodo get_data richiesto
     def get_data(self):
-        #Controllo che il nome del file sia una stringa
-        if not isinstance(self.name , str):
-            raise ExamException('Il nome del file non è una stringa!')
         #Controllo che il file sia leggibile
         if not self.can_read:
-           raise ExamException('Il file non è leggibile!')
-        #COntrollo che il file non sia vuoto
+            raise ExamException('Il file non è leggibile!')
 
-        #lista che conterrà i dati di cui ho bisogno
+
+
+        #lista che conterrà le altre liste
         data = []
         #Apro il file per la lettura 
         my_file = open(self.name ,'r')
-        
+        #controllo l'esistenza del file?
 
-
-        # leggo le righe del file 
+        # leggo le righe del file
         for line in my_file:
             #lista contenente gli elementi della riga splittati
             elements = line.split(',')
@@ -47,15 +41,10 @@ class CSVTimeSeriesFile():
             elements[-1] = elements[-1].strip()
             #Se non sto leggendo l'intestazione
             if elements[0] != 'date':
-
-
-
-                dates = elements[0]
-                values = elements[1]
                 
             
                 #Trasformo tutti i dati dei passegeri in interi
-                values = int(values)
+                elements[1] = int(elements[1])
                 # aggiungo i vari elementi nella lista di liste
                 data.append(elements)
         #Chiudo il file        
@@ -114,15 +103,13 @@ def compute_avg_monthly_difference(time_series, first_year, last_year):
 
     dati = [[elemento[1] for elemento in time_series if elemento[0].startswith(str(anno))] for anno in lista_anno]
     # Sempre tramite i descrittori di lista sommo con la funzione sum sulle liste tutte le differenze per mese 
-    lista_ausiliaria = [sum([dati[i+1][mese] - dati[i][mese] for i in range(intervallo)]) for mese in range(12)]
+    lista_ausiliaria = [sum([dati[i+1][mese] - dati[i][mese] for i in range(n)]) for mese in range(12)]
     #Con un descrittore di lista divido ogni elemento per l'intervallo di anni considerato, ottenendo la media richiesta
     lista_finale = [x/intervallo for x in lista_ausiliaria]
     return lista_finale
 
 
-time_series_file = CSVTimeSeriesFile(name='data.csv')
+time_series_file = CSVTimeSeriesFile(name='dat.csv')
 #Variabile contenente il risultato di get.data()
 time_series = time_series_file.get_data()
-
-#Cose da cancellare
 print('{}'.format(compute_avg_monthly_difference(time_series, '1949', '1951')))
