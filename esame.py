@@ -137,16 +137,17 @@ def compute_avg_monthly_difference(time_series , first_year , last_year):
     #Creo la lista dei dati passeggeri
     lista_passeggeri = []
     for anno in range(intervallo+1):
-        #
+        #Inizializzo una lista a None
         lista_base = [None,None,None,None,None,None,None,None,None,None,None,None]
+        #Aggiungo l'anno di riferimento ad ogni sottolista e le inserisco nella lista_passeggeri 
         lista_base.append(primo_anno + anno)
         lista_passeggeri.append(lista_base)
-    
-    for argomenti in lista_passeggeri :
+    # Inserisco i vari dati nella lista, procedendo così : se l'anno del dato corrisponde a quello della sottolista lo inserirò nell'indice corrispondente al mese diminuito di uno
+    for spazio_libero in lista_passeggeri :
         for elemento in time_series :
             dati = elemento[0].split('-')
-            if int(dati[0]) == argomenti[-1]:
-                argomenti[int(dati[1])-1] = elemento[1]
+            if int(dati[0]) == spazio_libero[-1]:
+                spazio_libero[int(dati[1])-1] = elemento[1]
    
   
 
@@ -169,7 +170,7 @@ def compute_avg_monthly_difference(time_series , first_year , last_year):
         mesi +=1
     #Con un descrittore di lista calcolo la media dividendo ogni elemento della lista per l'intervallo considerato
     lista_finale = [x/intervallo for x in lista_finale]
-    return lista_finale
+    return lista_passeggeri
 
 
 
