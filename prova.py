@@ -35,7 +35,6 @@ class CSVFile():
     
         # Lreading the file line by line
         for line in my_file:
-                
             # divide each line on the comma
             elements = line.split(',')
                 
@@ -47,6 +46,7 @@ class CSVFile():
                 #we skip over the parts of the list which have less than 2 arguments
                 if len(elements)<2:
                     continue
+                
                 #removing excess spaces
                 elements[0] = elements[0].strip()
                 elements[1] = elements[1].strip()
@@ -77,6 +77,7 @@ class CSVTimeSeries(CSVFile):
     def get_data(self):
         #Salvo in una variabile il risultato del get_data di CSVFile
         dati = super.get_data()
+    return 
 
 
 # Creo la funzione richiesta 
@@ -120,6 +121,8 @@ def compute_avg_monthly_difference(time_series, first_year, last_year):
     # Creo la lista degli anni da considerare
     for i in range(intervallo+1):
         lista_anno.append(primo_anno + i)
+
+    
         
 
 
