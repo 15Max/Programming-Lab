@@ -70,15 +70,11 @@ class CSVFile():
                 # Se hanno superato tutti i controlli aggiungo i due elementi alla lista, con lo slicing escludo eventuali elementi in eccesso
                 data.append(elements[:2])
             
-        #Controllo che le date del file siano in ordine e non siano ripetute
-        #Salvo la data precedente con cui confrontarmi in una variabile d'appoggio
-        previous_date = data[0][0]
-        #(Inizio il ciclo non considerando il primo elemento ttramite lo slicing)
-        for item in data[1:]:
-            if item[0] <= previous_date:
-                raise ExamException("Le date non sono inserte nell'ordine corretto")
-            else:
-                previous_date = item[0]
+        #Controllo che le date del file siano in ordine strettamente crescente
+        for i in range(len(data)-1):
+            if data[i+1][0] <= data[i][0]:
+                raise ExamException("Le date del file non sono nell'ordine corretto!")
+
 
         
         #Chiudo il file
@@ -184,3 +180,5 @@ def compute_avg_monthly_difference(time_series , first_year , last_year):
 time_series_file = CSVTimeSeriesFile(name='data.csv')
 #Variabile contenente il risultato di get.data()
 time_series = time_series_file.get_data()
+print('{}'.format(compute_avg_monthly_difference(time_series, '1949', '1951')))
+

@@ -71,14 +71,11 @@ class CSVFile():
                 data.append(elements[:2])
             
         #Controllo che le date del file siano in ordine e non siano ripetute
-        #Salvo la data precedente con cui confrontarmi in una variabile d'appoggio
-        previous_date = data[0][0]
-        #(Inizio il ciclo non considerando il primo elemento ttramite lo slicing)
-        for item in data[1:]:
-            if item[0] <= previous_date:
+
+    
+        for i in range(len(data)-1):
+            if data[i+1][0] <= data[i][0]:
                 raise ExamException("Le date non sono inserte nell'ordine corretto")
-            else:
-                previous_date = item[0]
 
         
         #Chiudo il file
