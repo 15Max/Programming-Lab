@@ -70,10 +70,17 @@ class CSVFile():
                 # Se hanno superato tutti i controlli aggiungo i due elementi alla lista, con lo slicing escludo eventuali elementi in eccesso
                 data.append(elements[:2])
             
-        
+        #Controllo che le date del file siano in ordine e non siano ripetute
+        #Salvo la data precedente con cui confrontarmi in una variabile d'appoggio
+        previous_date = data[0][0]
+        #(Inizio il ciclo non considerando il primo elemento ttramite lo slicing)
+        for item in data[1:]:
+            if item[0] <= previous_date:
+                raise ExamException("Le date non sono inserte nell'ordine corretto")
+            else:
+                previous_date = item[0]
 
         
-
         #Chiudo il file
         my_file.close()
 
@@ -132,14 +139,14 @@ def compute_avg_monthly_difference(time_series , first_year , last_year):
     intervallo = ultimo_anno - primo_anno
 
     #Creo la lista dei dati passeggeri
-    lista_passegeri = []
+    lista_passeggeri = []
     for anno in range(intervallo+1):
         #
         lista_base = [None,None,None,None,None,None,None,None,None,None,None,None]
-        lista_base.append(first_year + anno)
-        lista_passegeri.append(lista_base)
+        lista_base.append(primo_anno + anno)
+        lista_passeggeri.append(lista_base)
     
-    for argomenti in lista_passegeri :
+    for argomenti in lista_passeggeri :
         for elemento in time_series :
             dati = elemento[0].split('-')
             if int(dati[0]) == argomenti[-1]:
@@ -155,16 +162,16 @@ def compute_avg_monthly_difference(time_series , first_year , last_year):
     somma = 0
     while mesi < 12 : 
         for anni in range(intervallo):
-            if lista_passeggeri[anni][mesi] == None or lista_passegeri[anni+1][mesi] == None:
+            if lista_passeggeri[anni][mesi] == None or lista_passeggeri[anni+1][mesi] == None:
                 differenza = 0
             else:
-                differenza = lista_passegeri[anni+1][mesi] - lista_passeggeri[anni][mesi]
+                differenza = lista_passeggeri[anni+1][mesi] - lista_passeggeri[anni][mesi]
             somma += differenza
         lista_finale.append(somma)
         somma = 0
         mesi +=1
     #Con un descrittore di lista calcolo la media dividendo ogni elemento della lista per l'intervallo considerato
-    lista_finale = [x/intervallo_anni for x in final_list]
+    lista_finale = [x/intervallo for x in lista_finale]
     
 
     return lista_finale
@@ -175,12 +182,10 @@ def compute_avg_monthly_difference(time_series , first_year , last_year):
 
 
 
-#time_series_file = CSVTimeSeriesFile(name='data.csv')
+time_series_file = CSVTimeSeriesFile(name='data.csv')
 #Variabile contenente il risultato di get.data()
-#time_series = time_series_file.get_data()
+time_series = time_series_file.get_data()
 
-#print('{}'.format(compute_avg_monthly_difference(time_series, '1949', '1951')))
+print('{}'.format(compute_avg_monthly_difference(time_series, '1949', '1951')))
 
-prova = CSVFile('data.csv')
 
-print('{}'.format(prova.get_data()))
