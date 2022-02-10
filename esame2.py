@@ -30,15 +30,22 @@ class CSVFile():
         if length == 0:
             raise ExamException('Il file è vuoto!')
 
+        #Apro il file
+
+        my_file = open(self.name, 'r')
+
         #Lista contentente i valori da ritornare
         data = []
 
         # leggo le righe del file
         for line in my_file:
+
             #lista contenente gli elementi della riga splittati
             elements = line.split(',')
+
             #Tolgo l'elemento new line (/n)
             elements[-1] = elements[-1].strip()
+
             #Se non sto leggendo l'intestazione
             if elements[0] != 'date':
                 #Se la riga ha un solo dato la salto
@@ -50,7 +57,7 @@ class CSVFile():
 
                 #Controllo che il primo dato sia convertibile in oggetto datetime
                 try:
-                    prova_1 = datetime.strptime(elements[0], '%Y-%m')
+                    test = datetime.strptime(elements[0], '%Y-%m')
                 except:
                     continue
                 
@@ -62,19 +69,13 @@ class CSVFile():
                     elements[1] = None
                 # Se hanno superato tutti i controlli aggiungo i due elementi alla lista, con lo slicing escludo eventuali elementi in eccesso
                 data.append(elements[:2])
+            
         
-        #Controllo che i timestamps siano in ordine
-        first_date = data[0][0]
-        for element in data[1:] :
-            if first_date >= element[0]:
-                raise ExamException('I timestamps non sono ordinati in modo corretto!')
-            first_date = element[0]
+
         
-        #Chiudo il file 
-        try:
-            my_file.close()
-        except:
-            raise ExamException('Il file non si è chiuso in modo corretto!')
+
+        #Chiudo il file
+        my_file.close()
 
         return data
 
@@ -134,7 +135,7 @@ def compute_avg_monthly_difference(time_series , first_year , last_year):
     lista_passegeri = []
     for anno in range(intervallo+1):
         #
-        lista_base = [None for x in range(12)]
+        lista_base = [None,None,None,None,None,None,None,None,None,None,None,None]
         lista_base.append(first_year + anno)
         lista_passegeri.append(lista_base)
     
@@ -174,12 +175,12 @@ def compute_avg_monthly_difference(time_series , first_year , last_year):
 
 
 
-time_series_file = CSVTimeSeriesFile(name='data.csv')
+#time_series_file = CSVTimeSeriesFile(name='data.csv')
 #Variabile contenente il risultato di get.data()
-time_series = time_series_file.get_data()
+#time_series = time_series_file.get_data()
 
-print('{}'.format(compute_avg_monthly_difference(time_series, '1949', '1951')))
+#print('{}'.format(compute_avg_monthly_difference(time_series, '1949', '1951')))
 
+prova = CSVFile('data.csv')
 
-
-
+print('{}'.format(prova.get_data()))
