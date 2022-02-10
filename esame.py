@@ -134,20 +134,22 @@ def compute_avg_monthly_difference(time_series , first_year , last_year):
     #Intervallo di anni da considerare
     intervallo = ultimo_anno - primo_anno
 
-    #Creo la lista dei dati passeggeri
+    #Creo la lista dei dati passeggeri ancora vuota, con tante sottoliste quanti gli annni considerati
+
     lista_passeggeri = []
     for anno in range(intervallo+1):
-        #Inizializzo una lista a None
         lista_base = [None,None,None,None,None,None,None,None,None,None,None,None]
-        #Aggiungo l'anno di riferimento ad ogni sottolista e le inserisco nella lista_passeggeri 
-        lista_base.append(primo_anno + anno)
         lista_passeggeri.append(lista_base)
-    # Inserisco i vari dati nella lista, procedendo così : se l'anno del dato corrisponde a quello della sottolista lo inserirò nell'indice corrispondente al mese diminuito di uno
-    for spazio_libero in lista_passeggeri :
-        for elemento in time_series :
-            dati = elemento[0].split('-')
-            if int(dati[0]) == spazio_libero[-1]:
-                spazio_libero[int(dati[1])-1] = elemento[1]
+
+
+    # Inserisco i vari dati nella lista_passeggeri
+    for elemento in time_series :
+        for anno in range(len(lista_passeggeri)):
+            #Controllo che l'anno corrisponda a quello preso in considerazione
+            if elemento[0].startswith(str(primo_anno + anno)) :
+                #Eventualmente inserisco il dato dato passeggeri nella sottolista dell'anno preso in considerazione all'indice del mese indicato nella data diminuito di uno 
+                lista_passeggeri[anno][int(elemento[0][-2:])-1] = elemento[1]
+
    
   
 
@@ -158,7 +160,7 @@ def compute_avg_monthly_difference(time_series , first_year , last_year):
     mesi = 0
     somma = 0
     while mesi < 12 :
-        #Nel caso in cui ci siano dati mancanti faccio sì che la differenza con il precedente e il successivo valga, altrimenti calcolo la differenza tra i dati di due mesi e li inserisco nella somma 
+        #Nel caso in cui ci siano dati mancanti faccio sì che la differenza con il precedente e il successivo valga 0, altrimenti calcolo la differenza tra i dati di due mesi adiacenti e li inserisco nella somma 
         for anni in range(intervallo):
             if lista_passeggeri[anni][mesi] == None or lista_passeggeri[anni+1][mesi] == None:
                 differenza = 0
@@ -170,7 +172,7 @@ def compute_avg_monthly_difference(time_series , first_year , last_year):
         mesi +=1
     #Con un descrittore di lista calcolo la media dividendo ogni elemento della lista per l'intervallo considerato
     lista_finale = [x/intervallo for x in lista_finale]
-    return lista_passeggeri
+    return lista_finale
 
 
 

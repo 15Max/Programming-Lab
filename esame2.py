@@ -138,16 +138,16 @@ def compute_avg_monthly_difference(time_series , first_year , last_year):
     #Creo la lista dei dati passeggeri
     lista_passeggeri = []
     for anno in range(intervallo+1):
-        #
         lista_base = [None,None,None,None,None,None,None,None,None,None,None,None]
-        lista_base.append(primo_anno + anno)
         lista_passeggeri.append(lista_base)
     
-    for argomenti in lista_passeggeri :
-        for elemento in time_series :
-            dati = elemento[0].split('-')
-            if int(dati[0]) == argomenti[-1]:
-                argomenti[int(dati[1])-1] = elemento[1]
+    
+    
+        
+    for elemento in time_series :
+        for anno in range(len(lista_passeggeri)):
+                if elemento[0].startswith(str(primo_anno + anno)) :
+                    lista_passeggeri[anno][int(elemento[0][-2:])-1] = elemento[1]
    
   
 
