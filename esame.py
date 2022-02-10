@@ -26,8 +26,6 @@ class CSVFile():
         
         
 
-        
-
         #Variabile contatore per la lunghezza del file 
         length = 0
         for line in my_file:
