@@ -1,6 +1,3 @@
-#Esame primo appello 10/02
-#Marta Lucas SM3201351
-
 # Importo il modulo datetime dalla libreria datetime
 from datetime import datetime
 
@@ -24,9 +21,6 @@ class CSVFile():
         except Exception:
             raise ExamException("C'è stato un errore durante l'apertura del file!")
         
-        
-
-        
 
         #Variabile contatore per la lunghezza del file 
         length = 0
@@ -37,9 +31,8 @@ class CSVFile():
             raise ExamException('Il file è vuoto!')
 
         #Apro il file
+
         my_file = open(self.name, 'r')
-
-
 
         #Lista contentente i valori da ritornare
         data = []
@@ -103,41 +96,36 @@ def compute_avg_monthly_difference(time_series , first_year , last_year):
     # Contollo che first_year e last_year siano stringhe
     if not isinstance(first_year, str) and not(last_year , str):
         raise ExamException('I dati inseriti non sono stringhe!')
-
     #Controllo che first_year e last_year non siano vuote
     if first_year == '' :
         raise ExamException('Il primo intervallo è una stringa vuota!')
     if last_year == '' :
         raise ExamException('Il secondo intervallo è una stringa vuota!')
-
     #Controllo che la striga sia un numero intero
     if not first_year.isdigit() and not last_year.isdigit():
         raise ExamException('Le stringhe non contengono numeri!')
-
     #Controllo che l'anno finale non sia minore di quello finale:
     if int(last_year) < int(first_year):
         raise ExamException("L'anno iniziale è maggiore dei quello finale!")
-
     # Controllo che l'anno iniziale sia maggiore o uguale del 1949
     if int(first_year) < 1949 :
         raise ExamException("L'intervallo di dati considerato parte dal 1949.")
-
     #Controllo che l'anno finale sia minore o uguale al 1960
     if int(last_year) > 1960 :
         raise ExamException("L'intervallo di dati considerato arriva fino al 1960.")
 
-
     #Controllo che il contenuto di time series sia una lista
     if not isinstance(time_series, list):
         raise ExamException('time_series non è una lista!')
-
     # Controllo che non sia vuota
     if time_series == [] :
         raise ExamException('La lista time_series non ha elementi!')
-
     #Controllo che la lista ha abbastanza elementi
     if len(time_series) < 2:
         raise ExamException('La lista non ha abbastanza elementi da confrontare!')
+
+
+    
 
 
     #Converto in interi gli anni da considerare
@@ -163,11 +151,14 @@ def compute_avg_monthly_difference(time_series , first_year , last_year):
                 lista_passeggeri[anno][int(elemento[0][-2:])-1] = elemento[1]
 
    
+  
+
+
+
     #Calcolo la media per ogni mese:
     lista_finale = []
     mesi = 0
     somma = 0
-
     while mesi < 12 :
         #Nel caso in cui ci siano dati mancanti faccio sì che la differenza con il precedente e il successivo valga 0, altrimenti calcolo la differenza tra i dati di due mesi adiacenti e li inserisco nella somma 
         for anni in range(intervallo):
@@ -179,16 +170,18 @@ def compute_avg_monthly_difference(time_series , first_year , last_year):
         lista_finale.append(somma)
         somma = 0
         mesi +=1
-
     #Con un descrittore di lista calcolo la media dividendo ogni elemento della lista per l'intervallo considerato
     lista_finale = [x/intervallo for x in lista_finale]
-    
     return lista_finale
 
 
 
-# Oggetto della classe CSVTimeSeriesFile
+    
+
+
+
 time_series_file = CSVTimeSeriesFile(name='data.csv')
 #Variabile contenente il risultato di get.data()
 time_series = time_series_file.get_data()
+print('{}'.format(compute_avg_monthly_difference(time_series, '1949', '1951')))
 
